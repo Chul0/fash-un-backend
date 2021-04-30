@@ -12,6 +12,9 @@ app.use(require('cors')())
 const userRoutes = require('./routes/userRoutes')
 app.use('/users', userRoutes)
 
+const brandRoutes = require('./routes/brandRoutes')
+app.use('/brands', brandRoutes)
+
 
 
 ////////////////////////////////////////////
