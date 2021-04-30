@@ -39,6 +39,6 @@ module.exports = {
   }
 };
 
-
+//sequelize-cli seed:generate --name <table name you want to seed to>
 //sequelize-cli db:seed:all
 //sequelize-cli db:seed:undo:all

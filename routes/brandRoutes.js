@@ -3,6 +3,7 @@ const brandController = require('../controllers/brandController')
 
 
 brandRoutes.get('/', brandController.getAllBrands)
+brandRoutes.get('/:id', brandController.getBrandContents)
 
 
 

@@ -32,3 +32,6 @@ module.exports = {
     await queryInterface.dropTable('users');
   }
 };
+
+// sequelize-cli db:migrate:all
+// sequelize-cli db:migrate:undo
