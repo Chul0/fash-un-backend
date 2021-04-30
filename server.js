@@ -8,12 +8,13 @@ app.use(express.json())
 app.use(require('cors')())
 
 
+////////////////////////////////////////////
+const userRoutes = require('./routes/userRoutes')
+app.use('/users', userRoutes)
 
 
 
-
-
-
+////////////////////////////////////////////
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
