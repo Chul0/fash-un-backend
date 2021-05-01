@@ -15,6 +15,9 @@ app.use('/users', userRoutes)
 const brandRoutes = require('./routes/brandRoutes')
 app.use('/brands', brandRoutes)
 
+const brandContentRoutes = require('./routes//brandContentRoutes')
+app.use('/brandcontent', brandContentRoutes)
+
 
 
 ////////////////////////////////////////////
