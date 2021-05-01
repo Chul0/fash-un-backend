@@ -1,4 +1,5 @@
 const models = require('../models')
+const { save } = require('./brandContentController')
 
 const  userController ={}
 
@@ -38,6 +39,7 @@ userController.login = async(req, res) => {
     }
   }
 
+//Fetch user id to userContext
 userController.verify = async (req, res) => {
   try {
     const user = await models.user.findOne({
@@ -52,6 +54,21 @@ userController.verify = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({error: error.message})
+  }
+}
+
+//Find saved brand content images 
+userController.getMyBoard = async (req, res) => {
+  try {
+    const user = await models.user.findOne({
+      where: {id: req.headers.authorization}
+    })
+
+    const savedImage = await user.getBrandContents()
+
+    res.json(savedImage)
+  } catch (error) {
+    res.json(error)
   }
 }
 
