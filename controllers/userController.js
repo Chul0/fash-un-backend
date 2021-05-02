@@ -64,6 +64,7 @@ userController.getMyBoard = async (req, res) => {
       where: {id: req.headers.authorization}
     })
 
+    // console.log(user);
     const savedImage = await user.getBrandContents()
 
     res.json(savedImage)
