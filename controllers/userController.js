@@ -73,6 +73,21 @@ userController.getMyBoard = async (req, res) => {
   }
 }
 
+//user profile update
+userController.update = async (req, res) => {
+  try {
+    const updates = req.body
+
+    const user = await models.user.findOne({
+      where: {id: req.headers.authorization}
+    })
+
+    const finalStep = await user.update(updates)
+    res.json({finalStep})
+  } catch (error) {
+    res.json({error: error.message})
+  }
+}
 
 
 module.exports = userController
