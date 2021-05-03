@@ -31,8 +31,9 @@ brandController.getBrandContents = async (req, res) => {
         })
 
         let brandContent = await brand.getBrandContents()
+        let comments = await brand.getComments({order:[['id', 'DESC']],include:models.user})
         
-        res.json({brand, brandContent})
+        res.json({brand, brandContent, comments})
     } catch (error) {
         res.json({error: error.message})
     }
