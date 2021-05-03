@@ -89,5 +89,20 @@ userController.update = async (req, res) => {
   }
 }
 
+//delete user 
+userController.delete = async (req, res) => {
+  try {
+    const user = await models.user.findOne({
+      where: { id: req.headers.authorization },
+      include:models.comment
+    })
+    const deleteComments = await user.removeComment()
+    await user.destroy()
+    res.json({user, deleteComments})
+  } catch (error) {
+    res.json({error: error.message})
+  }
+}
+
 
 module.exports = userController

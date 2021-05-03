@@ -7,6 +7,6 @@ userRoutes.post('/login', userController.login)
 userRoutes.get('/verify', userController.verify)
 userRoutes.get('/myboard', userController.getMyBoard)
 userRoutes.put('/profile', userController.update)
-
+userRoutes.delete('/', userController.delete)
 
 module.exports = userRoutes
