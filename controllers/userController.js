@@ -94,11 +94,16 @@ userController.delete = async (req, res) => {
   try {
     const user = await models.user.findOne({
       where: { id: req.headers.authorization },
-      include:models.comment
+      // include:models.comment
     })
-    const deleteComments = await user.removeComment()
+    const comments = await user.getComments()
+
+    for(let i=0 ; i < comments.length; i++){
+      await comments[i].destroy()
+    }
+    
     await user.destroy()
-    res.json({user, deleteComments})
+    res.json({user, comments})
   } catch (error) {
     res.json({error: error.message})
   }
