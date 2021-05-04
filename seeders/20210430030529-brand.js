@@ -26,12 +26,37 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     },
+    // {
+    //   name: 'Dior Men',
+    //   image: 'https://assets.vogue.com/photos/600acf4bf46006afc0972416/master/pass/00001-DIOR-MENSWEAR-FALL-21.jpg',
+    //   createdAt: new Date(),
+    //   updatedAt: new Date()
+    // },
     {
-      name: 'Dior Men',
+      name: 'Sacai',
       image: 'https://assets.vogue.com/photos/600acf4bf46006afc0972416/master/pass/00001-DIOR-MENSWEAR-FALL-21.jpg',
       createdAt: new Date(),
       updatedAt: new Date()
-    }]);
+    },
+    {
+      name: 'Sunnei',
+      image: 'https://assets.vogue.com/photos/60040fbab65a217b967ed242/master/pass/00001-Sunnei-FW-21.jpg',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      name: 'Burberry',
+      image: 'https://assets.vogue.com/photos/6033b293c6589a62fb6c5a71/master/pass/00001-Burberry-Fall-21.jpg',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      name: 'Sungchul Park',
+      image: 'https://i.ibb.co/JjTJg60/10551556-10152199356506331-4863221187565517322-o.jpg',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  ]);
   },
 
   down: async (queryInterface, Sequelize) => {

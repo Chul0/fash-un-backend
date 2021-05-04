@@ -7,6 +7,29 @@ const { save } = require('./brandContentController')
 
 const  userController ={}
 
+// userController.lookupUser = async (req, res, next) => {
+//   try {
+//     if (req.headers.authorization){
+//       const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+      
+//       const user = await models.user.findOne({
+//         where: {
+//           id: decryptedId.userId
+//         }
+//       })
+//       req.user=user
+//     }else{
+//       req.user = null
+//     }
+
+//     next()
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ error: error.message })
+//   }
+// }
+
+
 //signup
 userController.create = async (req, res) => {
     try {
