@@ -89,7 +89,7 @@ userController.update = async (req, res) => {
   }
 }
 
-//delete user 
+//delete user and user's comments
 userController.delete = async (req, res) => {
   try {
     const user = await models.user.findOne({
@@ -98,10 +98,14 @@ userController.delete = async (req, res) => {
     })
     const comments = await user.getComments()
 
+    //loop through each of this user's comment, destroy them one by one.
     for(let i=0 ; i < comments.length; i++){
       await comments[i].destroy()
     }
-    
+
+    // const deleteComments = await user.removeComments(comments)
+    // removeChildren just disassociates the children by giving them a null parentId, which is not what I want in this case.
+
     await user.destroy()
     res.json({user, comments})
   } catch (error) {
