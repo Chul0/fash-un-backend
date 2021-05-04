@@ -1,3 +1,7 @@
+require('dotenv').config()
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+
 const models = require('../models')
 const { save } = require('./brandContentController')
 
@@ -6,12 +10,18 @@ const  userController ={}
 //signup
 userController.create = async (req, res) => {
     try {
+        const hashedPassword = bcrypt.hashSync(req.body.password, 10)
+
         const user = await models.user.create({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password
+            password: hashedPassword
         })
-        res.json({user, message: 'User created!'})
+
+        const encryptedId = jwt.sign({ userId: user.id}, process.env.JWT_SECRET)
+        //encrypt user id
+
+        res.json({user, message: 'User created!', userId: encryptedId})
     } catch (error) {
         console.log(error);
         res.status(400).json({error: error.message})
@@ -28,8 +38,11 @@ userController.login = async(req, res) => {
         }
       })
   
-      if (user.password === req.body.password) {
-        res.json({ user, message: 'login successful' })
+      if (bcrypt.compareSync(req.body.password, user.password)) {
+        const encryptedId = jwt.sign({ userId: user.id}, process.env.JWT_SECRET)
+        //encrypt user id
+
+        res.json({ user, message: 'login successful', userId:encryptedId })
       } else {
         res.status(401).json({ message: 'login failed' })
       }
@@ -40,17 +53,27 @@ userController.login = async(req, res) => {
   }
 
 //Fetch user id to userContext
-userController.verify = async (req, res) => {
+userController.verifyUser = async (req, res) => {
   try {
-    const user = await models.user.findOne({
+    const userFromHeader = await models.user.findOne({
       where: {id: req.headers.authorization }
     })
+    const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+    
+    const user = await models.user.findOne({
+      where: {
+        
+        id: decryptedId.userId
+      }
+    })
+    console.log(user);
 
     if (user) {
       res.json({user, message:'user found'})
     }else {
       res.status(404).json({message: 'user not found'})
     }
+    res.json({user})
   } catch (error) {
     console.log(error);
     res.status(400).json({error: error.message})
