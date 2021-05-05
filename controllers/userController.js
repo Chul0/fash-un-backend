@@ -128,8 +128,14 @@ userController.getMyBoard = async (req, res) => {
 //user profile update
 userController.update = async (req, res) => {
   try {
-    const updates = req.body
-
+    const hashedPassword = bcrypt.hashSync(req.body.password, 10)
+    const updates = {
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPassword
+    }
+    //if you used hashedPassword for signup you should use it in editing profile too! I could change user info without it but I couldn't log in with new password.
+    
     // const user = await models.user.findOne({
     //   where: {id: req.headers.authorization}
     // })

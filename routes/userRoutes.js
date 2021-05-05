@@ -10,3 +10,4 @@ userRoutes.put('/profile', userController.update)
 userRoutes.delete('/', userController.delete)
 
 module.exports = userRoutes
+
