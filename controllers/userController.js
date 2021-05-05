@@ -78,9 +78,9 @@ userController.login = async(req, res) => {
 //Fetch user id to userContext
 userController.verifyUser = async (req, res) => {
   try {
-    const userFromHeader = await models.user.findOne({
-      where: {id: req.headers.authorization }
-    })
+    // const userFromHeader = await models.user.findOne({
+    //   where: {id: req.headers.authorization }
+    // })
     const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
     
     const user = await models.user.findOne({
@@ -89,14 +89,13 @@ userController.verifyUser = async (req, res) => {
         id: decryptedId.userId
       }
     })
-    console.log(user);
+    // console.log(user);
 
     if (user) {
       res.json({user, message:'user found'})
     }else {
       res.status(404).json({message: 'user not found'})
     }
-    res.json({user})
   } catch (error) {
     console.log(error);
     res.status(400).json({error: error.message})
@@ -106,10 +105,17 @@ userController.verifyUser = async (req, res) => {
 //Find saved brand content images 
 userController.getMyBoard = async (req, res) => {
   try {
+    // const user = await models.user.findOne({
+    //   where: {id: req.headers.authorization}
+    // })
+    const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+    
     const user = await models.user.findOne({
-      where: {id: req.headers.authorization}
+      where: {
+        
+        id: decryptedId.userId
+      }
     })
-
     // console.log(user);
     const savedImage = await user.getBrandContents()
 
@@ -124,8 +130,16 @@ userController.update = async (req, res) => {
   try {
     const updates = req.body
 
+    // const user = await models.user.findOne({
+    //   where: {id: req.headers.authorization}
+    // })
+    const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+    
     const user = await models.user.findOne({
-      where: {id: req.headers.authorization}
+      where: {
+        
+        id: decryptedId.userId
+      }
     })
 
     const finalStep = await user.update(updates)
@@ -138,10 +152,20 @@ userController.update = async (req, res) => {
 //delete user and user's comments
 userController.delete = async (req, res) => {
   try {
+    // const user = await models.user.findOne({
+    //   where: { id: req.headers.authorization },
+    //   // include:models.comment
+    // })
+    const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+    
     const user = await models.user.findOne({
-      where: { id: req.headers.authorization },
-      // include:models.comment
+      where: {
+        
+        id: decryptedId.userId
+      }
     })
+
+
     const comments = await user.getComments()
 
     //loop through each of this user's comment, destroy them one by one.

@@ -2,6 +2,8 @@ const models = require('../models')
 const brandContent = require('../models/brandcontent')
 const comment = require('../models/comment')
 const user = require('../models/user')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const brandController = {}
 
@@ -47,9 +49,14 @@ brandController.createComments = async (req, res) => {
                 id: req.params.id
             }
         })
+        const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+    
         const user = await models.user.findOne({
-            where: {id: req.headers.authorization }
-        })
+      where: {
+        
+        id: decryptedId.userId
+      }
+    })
 
         const comment = await models.comment.create({
             description: req.body.description

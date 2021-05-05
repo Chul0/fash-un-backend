@@ -2,6 +2,8 @@ const models = require('../models')
 const brandContent = require('../models/brandcontent')
 const user = require('../models/user')
 const save = require('../models/save')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 
 const brandContentController = {}
@@ -30,9 +32,14 @@ brandContentController.save = async (req, res) => {
             }
         })
         
-        let user = await models.user.findOne({
-            where: {id: req.headers.authorization }
-        })
+        const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+    
+        const user = await models.user.findOne({
+      where: {
+        
+        id: decryptedId.userId
+      }
+    })
         // console.log(user);
 
         let addAssociation = await user.addBrandContent(brandContent)
@@ -44,12 +51,18 @@ brandContentController.save = async (req, res) => {
 
 brandContentController.delete =async (req,res) => {
     try {
+        const decryptedId = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
+    
         const user = await models.user.findOne({
-            where :{ id: req.headers.authorization }
-        })
+      where: {
+        
+        id: decryptedId.userId
+      }
+    })
+    console.log(user);
         const deleteImage = await models.save.destroy({
             where:{
-                userId: user.id,
+                userId: decryptedId.userId,
                 brandContentId: req.params.id               
             }
         })
